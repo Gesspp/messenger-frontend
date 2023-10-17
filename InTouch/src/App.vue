@@ -1,15 +1,14 @@
 <script>
-	import Signup from './components/Signup.vue'
-	import Signin from './components/Signin.vue'
+	import Header from "./components/Header.vue"
 	export default{
 		components: {
-			Signup,
-			Signin
+			Header
 		}
 	}
 </script>
 <template>
-	<Signin></Signin>
+	<Header/>
+	<router-view/>
 </template>
 <style>
 
