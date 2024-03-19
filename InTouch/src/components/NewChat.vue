@@ -1,8 +1,11 @@
 <template>
-    <div class="new-chat">
-        <p>Создание нового чата</p>
-        <input type="поле ввода" class="chat-input-field" v-model="title">
-        <button class="submit-chat-create" @click="AddChat">Создать чат</button>
+    <div class="chatWrapper" v-if="active">
+        <div class="new-chat">
+            <button class="cross"><unicon name="times" fill="black" @click="Close"/></button>
+            <p>Создание нового чата</p>
+            <input type="поле ввода" class="chat-input-field" v-model="title">
+            <button class="submit-chat-create" @click="AddChat">Создать чат</button>
+        </div>
     </div>
 </template>
 <script>
@@ -13,17 +16,20 @@
             }
         },
         methods: {
-            AddChat(){
+            AddChat(e){
                 e.preventDefault();
-                const chat = {
-                    title: this.title
-                };
-                this.$store.dispatch("addChat", title)
+                this.$store.dispatch("addChat", this.title)
+            },
+            Close(){
+                this.$emit("close")
             }
+        },
+        props: {
+            active: Boolean
         }
     }
 </script>
-<style>
+<style scoped>
     .new-chat {
         border-radius: 15px;
         border-color: black;
@@ -59,5 +65,22 @@
     .chat-input-field:focus{
         box-shadow: 0 0 10px #07689F;
         transition: 1s;
+    }
+    .cross{
+        cursor: pointer;
+        border-width: 0;
+        border-color: #A2D5F2;
+        background-color: #A2D5F2;
+    }
+    .chatWrapper{
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.363);
+        display: flex;
+        position: fixed;
+        justify-content: center;
+        align-items: center;
     }
 </style>

@@ -19,7 +19,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
     header{
         width: 100vw;
         height: 100px;

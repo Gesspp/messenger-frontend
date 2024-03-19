@@ -2,10 +2,11 @@ import { createStore } from "vuex";
 const store = createStore({
     state(){
         return{
-            APIUrl: "http://141.8.194.221:3002",
+            APIUrl: "http://141.8.194.221:3000",
             token: false,
             user : false,
-            chats: false
+            chats: false,
+            activeChat : false
         }
     },
     actions: {
@@ -55,11 +56,16 @@ const store = createStore({
             return res.ok;
         },
         async addChat(ctx, title) {
+            const token = localStorage.getItem("token") ? localStorage.getItem("token") : ctx.state.token;
+            if (!token) {
+                return false;
+            }
             const data = JSON.stringify({title})
             const res = await fetch(`${ctx.state.APIUrl}/chats/add`, {
                 method: "POST",
                 headers: {
-                    "Content-Type" : "application/json;charset=utf-8"
+                    "Content-Type" : "application/json;charset=utf-8",
+                    "Authorization" : `Bearer ${token}`
                 },
                 body: data
             })
@@ -81,6 +87,22 @@ const store = createStore({
             })
             const result = await res.json();
             ctx.commit("SET_CHATS", result.chats)
+            return res.ok;
+        },
+        async findUser(ctx, nickname) {
+            const token = localStorage.getItem("token") ? localStorage.getItem("token") : ctx.state.token;
+            if (!token) {
+                return false;
+            }
+            const res = await fetch(`${ctx.state.APIUrl}/users/search`, {
+                method: "GET",
+                headers: {
+                    "Content-Type" : "application/json;charset=utf-8",
+                    "Authorization" : `Bearer ${token}`
+                }
+            })
+            const result = await res.json();
+            await ctx.dispatch("findUser");
             return res.ok;
         }
     },

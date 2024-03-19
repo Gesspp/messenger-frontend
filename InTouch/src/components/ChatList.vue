@@ -1,13 +1,13 @@
 <template>
-    <AddChat></AddChat>
-    <Chat v-for="chat in chats" :id="chat.id" :title="chat.title"></Chat>
+    <div class="chat-list">
+        <Chat v-for="chat in chats" :id="chat.id" :title="chat.title"></Chat>
+    </div>
 </template>
 <script>
 import Chat from './Chat.vue';
-import AddChat from './AddChat.Vue';
 export default{
     components : {
-        Chat, AddChat
+        Chat
     },
     props : {
         chats : Array
@@ -15,5 +15,5 @@ export default{
 }
 </script>
 <style>
-
+    
 </style>

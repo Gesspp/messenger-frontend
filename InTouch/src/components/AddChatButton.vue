@@ -1,11 +1,11 @@
 <template>
     <div class="locate">
-        <NewChat v-if="chatVisible"></NewChat>
+        <NewChat :active="chatVisible" @close="closeNewChat"></NewChat>
         <FindUser v-if="FindUserVisible"></FindUser>
         <div class="buttons-group">
             <div :class="{'chat-buttons':true, 'opened-menu':openedMenu}">
-                <div class="add-group" @click="chatVisible=!chatVisible"><unicon name="comment-plus" fill="black"/></div>
-                <div class="add-user" @click="FindUserVisible=!FindUserVisible"><unicon name="user-plus"  fill="black"/></div>
+                <div class="add-group" @click="chatVisible=true"><unicon name="comment-plus" fill="black"/></div>
+                <div class="user-add" @click="FindUserVisible=!FindUserVisible"><unicon name="user-plus"  fill="black"/></div>
                 <div class="add-note"><unicon name="notes"  fill="black"/></div>
             </div>
             <div class="open-menu" @click="openedMenu=!openedMenu">+</div>
@@ -25,6 +25,11 @@ import FindUser from './FindUser.vue';
                 openedMenu: false,
                 chatVisible: false,
                 FindUserVisible: false
+            }
+        },
+        methods: {
+            closeNewChat(){
+                this.chatVisible = false;
             }
         }
     }
@@ -54,7 +59,7 @@ import FindUser from './FindUser.vue';
         transition: 0.5s;
     }
     
-    .add-group, .add-user, .add-note {
+    .add-group, .user-add, .add-note {
         width: 50px;
         height: 50px;
         border-radius: 40px;
@@ -66,7 +71,7 @@ import FindUser from './FindUser.vue';
         transition: 0.5s;
     }
 
-    .add-group:hover, .add-user:hover, .add-note:hover {
+    .add-group:hover, .user-add:hover, .add-note:hover {
         position: static;
         box-shadow: 0 0 12px rgb(41, 41, 41);
         width: 56px;
